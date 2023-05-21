@@ -1,0 +1,56 @@
+{
+    "name": "passimpay/passimpay-php-api",
+    "description": "Passimpay API PHP wrapper",
+    "homepage": "https://github.com/Passimpay/passimpay-api-php",
+    "type": "library",
+
+    "require": {
+        "php": ">=7.1.0",
+        "ext-mbstring": "*",
+        "ext-json": "*",
+        "ext-curl": "*"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Passimpay\\": "src/"
+        }
+    },
+
+    "authors": [
+        {
+            "name": "Artsem Shulga",
+            "role": "Developer",
+            "email": "artsems96@gmail.com",
+            "homepage": "https://github.com/artsems"
+        },
+        {
+            "name": "Andrei Yaruk",
+            "role": "Developer"
+        }
+    ],
+
+    "keywords": [
+        "Passimpay",
+        "cryptocurrency",
+        "crypto",
+        "payment gateway",
+        "payment method",
+        "payment processor",
+        "merchant",
+        "tether",
+        "trc20",
+        "tron",
+        "bitpay",
+        "paypal",
+        "bitcoin",
+        "litecoin",
+        "ethereum",
+        "coinpayments",
+        "block.io",
+        "php",
+        "api",
+        "btc",
+        "currency"
+    ]
+}
