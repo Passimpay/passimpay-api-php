@@ -13,6 +13,11 @@ You will also need to create your platform [here](https://passimpay.io/account/p
 * platform id
 * secret key
 
+## Composer installation
+```
+$ composer require passimpay/passimpay-php-api
+```
+
 ## Examples
 
 1. Getting balance:
