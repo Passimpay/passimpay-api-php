@@ -25,7 +25,7 @@ class PassimpayApi
     
     public function balance(): array
     {
-        $response = post(URL_BALANCE);
+        $response = $this->request(URL_BALANCE);
         
         if (isset($response['result']) && (1 == $response['result'])) {
             return [$response['balance'], null];
@@ -36,7 +36,7 @@ class PassimpayApi
 
     public function currencies(): array
     {
-        $response = post(URL_CURRENCIES);
+        $response = $this->request(URL_CURRENCIES);
         
         if (isset($response['result']) && (1 == $response['result'])) {
             return [$response['list'], null];
@@ -47,7 +47,7 @@ class PassimpayApi
 
     public function invoice(string $id, float $amount): array
     {
-        $response = post(URL_INVOICE_CREATE, [
+        $response = $this->request(URL_INVOICE_CREATE, [
             'order_id' => $id,
             'amount'   => $amount
         ]);
@@ -61,7 +61,7 @@ class PassimpayApi
 
     public function invoiceStatus(string $id): array
     {
-        $response = post(URL_INVOICE_STATUS, ['order_id' => $id]);
+        $response = $this->request(URL_INVOICE_STATUS, ['order_id' => $id]);
         
         if (isset($response['result']) && (1 == $response['result'])) {
             return [$response['status'], null];
@@ -72,9 +72,10 @@ class PassimpayApi
 
     public function paymentWallet(string $orderId, string $paymentId): array
     {
-        $response = post(URL_PAYMENT_WALLET, [
-            'order_id'   => $orderId,
-            'payment_id' => $paymentId
+        $response = $this->request(URL_PAYMENT_WALLET, [
+            'payment_id' => $paymentId,
+			'platform_id' => $this->platformId,
+			'order_id'   => $orderId
         ]);
         
         if (isset($response['result']) && (1 == $response['result'])) {
@@ -86,10 +87,11 @@ class PassimpayApi
 
     public function withdraw(string $paymentId, string $addressTo, float $amount): array
     {
-        $response = post(URL_WITHDRAW, [
+        $response = $this->request(URL_WITHDRAW, [
             'payment_id' => $paymentId,
-            'address_to' => $addressTo,
-            'amount'     => $amount
+            'platform_id' => $this->platformId,
+			'amount'     => $amount,
+            'address_to' => $addressTo
         ]);
         
         if (isset($response['result']) && (1 == $response['result'])) {
@@ -104,7 +106,7 @@ class PassimpayApi
 
     public function transactionStatus(string $txHash): array
     {
-        $response = post(URL_TRANSACTION_STATUS, ['txhash' => $txHash]);
+        $response = $this->request(URL_TRANSACTION_STATUS, ['txhash' => $txHash]);
         
         if (isset($response['result']) && (1 == $response['result'])) {
             unset($response['result']);
@@ -126,7 +128,7 @@ class PassimpayApi
             throw new Exception('Passimpay: platform id can not be empty.');
         }
 
-        $payload = ['platform_id' => $this->platformId];
+        $payload = (!isset($parameters['platform_id']))?['platform_id' => $this->platformId]:[];
         $payload = array_merge($payload, $parameters);
         $payload = array_merge($payload, ['hash' => hash_hmac('sha256', http_build_query($payload), $this->secretKey)]);
         $payload = http_build_query($payload);
