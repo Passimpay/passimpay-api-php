@@ -6,18 +6,18 @@ class PassimpayApi
 {
     const URL_BASE = 'https://passimpay.io/api';
 
-    const URL_BALANCE            = URL_BASE . '/balance';
-    const URL_CURRENCIES         = URL_BASE . '/currencies';
-    const URL_INVOICE_CREATE     = URL_BASE . '/createorder';
-    const URL_INVOICE_STATUS     = URL_BASE . '/orderstatus';
-    const URL_PAYMENT_WALLET     = URL_BASE . '/getpaymentwallet';
-    const URL_WITHDRAW           = URL_BASE . '/withdraw';
-    const URL_TRANSACTION_STATUS = URL_BASE . '/transactionstatus';
+    const URL_BALANCE            = self::URL_BASE . '/balance';
+    const URL_CURRENCIES         = self::URL_BASE . '/currencies';
+    const URL_INVOICE_CREATE     = self::URL_BASE . '/createorder';
+    const URL_INVOICE_STATUS     = self::URL_BASE . '/orderstatus';
+    const URL_PAYMENT_WALLET     = self::URL_BASE . '/getpaymentwallet';
+    const URL_WITHDRAW           = self::URL_BASE . '/withdraw';
+    const URL_TRANSACTION_STATUS = self::URL_BASE . '/transactionstatus';
 
     protected $platformId;
     protected $secretKey;
 
-    public __construct(string $platformId, string $secretKey)
+    public function __construct(string $platformId, string $secretKey)
     {
         $this->platformId = $platformId;
         $this->secretKey  = $secretKey;
@@ -25,7 +25,7 @@ class PassimpayApi
     
     public function balance(): array
     {
-        $response = $this->request(URL_BALANCE);
+        $response = $this->request(self::URL_BALANCE);
         
         if (isset($response['result']) && (1 == $response['result'])) {
             return [$response['balance'], null];
@@ -36,7 +36,7 @@ class PassimpayApi
 
     public function currencies(): array
     {
-        $response = $this->request(URL_CURRENCIES);
+        $response = $this->request(self::URL_CURRENCIES);
         
         if (isset($response['result']) && (1 == $response['result'])) {
             return [$response['list'], null];
@@ -47,7 +47,7 @@ class PassimpayApi
 
     public function invoice(string $id, float $amount): array
     {
-        $response = $this->request(URL_INVOICE_CREATE, [
+        $response = $this->request(self::URL_INVOICE_CREATE, [
             'order_id' => $id,
             'amount'   => $amount
         ]);
@@ -61,7 +61,7 @@ class PassimpayApi
 
     public function invoiceStatus(string $id): array
     {
-        $response = $this->request(URL_INVOICE_STATUS, ['order_id' => $id]);
+        $response = $this->request(self::URL_INVOICE_STATUS, ['order_id' => $id]);
         
         if (isset($response['result']) && (1 == $response['result'])) {
             return [$response['status'], null];
@@ -72,7 +72,7 @@ class PassimpayApi
 
     public function paymentWallet(string $orderId, string $paymentId): array
     {
-        $response = $this->request(URL_PAYMENT_WALLET, [
+        $response = $this->request(self::URL_PAYMENT_WALLET, [
             'payment_id' => $paymentId,
 			'platform_id' => $this->platformId,
 			'order_id'   => $orderId
@@ -87,7 +87,7 @@ class PassimpayApi
 
     public function withdraw(string $paymentId, string $addressTo, float $amount): array
     {
-        $response = $this->request(URL_WITHDRAW, [
+        $response = $this->request(self::URL_WITHDRAW, [
             'payment_id' => $paymentId,
             'platform_id' => $this->platformId,
 			'amount'     => $amount,
@@ -106,7 +106,7 @@ class PassimpayApi
 
     public function transactionStatus(string $txHash): array
     {
-        $response = $this->request(URL_TRANSACTION_STATUS, ['txhash' => $txHash]);
+        $response = $this->request(self::URL_TRANSACTION_STATUS, ['txhash' => $txHash]);
         
         if (isset($response['result']) && (1 == $response['result'])) {
             unset($response['result']);
