@@ -4,7 +4,7 @@ namespace Passimpay;
 
 class PassimpayApi
 {
-    const URL_BASE = 'https://passimpay.io/api';
+    const URL_BASE = 'https://api.passimpay.io';
 
     const URL_BALANCE            = self::URL_BASE . '/balance';
     const URL_CURRENCIES         = self::URL_BASE . '/currencies';
